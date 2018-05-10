@@ -40,6 +40,13 @@ parser.add_argument("-c", "--config",
                     metavar='',
                     default="config.yaml")
 
+parser.add_argument("-b", "--blacklist",
+                    help="path to file of blacklisted releases",
+                    nargs='?',
+                    type=str,
+                    metavar='',
+                    default="")
+
 parser.add_argument("-s", "--skipdownloads",
                     help="Skip attempt to download from playlist. Use this \
                         option if you already have trailers in your directory \
@@ -50,6 +57,10 @@ args = parser.parse_args()
 
 with open(args.config, "r") as f:
     config = yaml.load(f)
+
+if args.blacklist:
+    with open(args.blacklist) as f:
+        blacklist = f.read().splitlines()
 
 os.chdir(config['trailer_dir'])
 
@@ -64,7 +75,6 @@ for trailer in trailers:
     if trailer.startswith(config['ln_prefix']):
         print(" - ", trailer)
         os.remove(os.path.join(config['trailer_dir'], trailer))
-print("Success!")
 
 ###############################################################################
 # remove old trailers
@@ -83,7 +93,7 @@ if config['timelim'] > 0:
                 os.remove(os.path.join(config['trailer_dir'], trailer))
                 counter += 1
                 
-    print(counter, "trailers deleted")
+    print(" - ", counter, "trailers deleted")
 
 ###############################################################################
 # randomly select trailers to download
@@ -172,11 +182,27 @@ if not args.skipdownloads:
 ###############################################################################
 # Randomly select 3 trailers and soft link
 ###############################################################################
+# print("-" * 40)
+# print("Generating new symlinks...")
+
 trailers = list(listdir_nohidden(config['trailer_dir']))
+
+# check blacklist for titles to exclude
+if args.blacklist:
+    print("-" * 40)
+    print("Checking for blacklisted trailers...")
+    for trailer in trailers:
+        for bl in blacklist:
+            if bl.lower() in trailer.lower():
+                trailers.remove(trailer)
+                print(" - Blacklisting " + trailer)
+                
+    print("Blacklisted trailers may still exist in", config["trailer_dir"], "but will be excluded from symlinks")
+
 random.shuffle(trailers)
 
 print("-" * 40)
-print("Generating random symlinks...")
+print("Generating symlinks...")
 for i in range(0,config['ntrailers_ln']):
     ln_name = config['ln_prefix'] + str(i) + ".mp4"
     os.symlink(trailers[i], ln_name)
