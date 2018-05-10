@@ -1,5 +1,5 @@
 # set directory for trailer downloads
-trailer_dir: "/mnt/norbert/Media/Video/Trailers/"
+trailer_dir: "/path/to/Trailers/"
 
 # playlist URLs
 # default uses the Fandango Movieclips Trailers genre-specific playlists
