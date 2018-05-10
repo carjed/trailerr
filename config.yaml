@@ -1,0 +1,42 @@
+# set directory for trailer downloads
+trailer_dir: "/mnt/norbert/Media/Video/Trailers/"
+
+# playlist URLs
+# default uses the Fandango Movieclips Trailers genre-specific playlists
+# comment lines to exclude
+pl_urls:
+    action: "https://www.youtube.com/playlist?list=PLScC8g4bqD45-Bue4BX7U2h4IkzEV3hcL"
+    # bio: "https://www.youtube.com/playlist?list=PLScC8g4bqD44j19iwEKMiXNp57sb_0IR9"
+    comedy: "https://www.youtube.com/playlist?list=PLScC8g4bqD47QYmsgs_FBzcNvi3PPt2Ev"
+    docs: "https://www.youtube.com/playlist?list=PLauTLaPMBllOaktnRHmjIKG32Mi5L440t"
+    drama: "https://www.youtube.com/playlist?list=PLScC8g4bqD469VYkyt1NxADt_RzRHYZLp"
+    family: "https://www.youtube.com/playlist?list=PLScC8g4bqD47P_atb4723dHASIg7xT-Ux"
+    # horror: "https://www.youtube.com/playlist?list=PLScC8g4bqD44VCoWD5UPh_i4zZ21vU6BO"
+    indie: "https://www.youtube.com/playlist?list=PLauTLaPMBllP3FFvODbIpF2bOD_7CSAaC"
+    # thriller: "https://www.youtube.com/playlist?list=PLScC8g4bqD4481GWXZ1kGFQshromc7NSg"
+
+# video/audio format to download
+# see https://github.com/rg3/youtube-dl/blob/master/README.md#format-selection
+# for details
+format: "137+140"
+
+# number of seconds to remove from end of trailer
+# --use this option when uploader has appended material to trailers
+# Movieclips Trailers typically have ~10 seconds that need to be trimmed
+trim_secs: 10
+
+# set number of most recent trailers per playlist to download
+ntrailers_dl: 5
+
+# number of trailers to soft link
+ntrailers_ln: 3
+
+# prefix for links.
+ln_prefix: "trailer"
+
+# number of days to retain downloaded trailers
+# default (120) corresponds to average time between trailer and release,
+# per https://stephenfollows.com/far-advance-film-trailers-released/
+timelim: 120
+
+
